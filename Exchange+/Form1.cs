@@ -17,24 +17,31 @@ namespace Exchange_
             InitializeComponent();
         }
         static double dif = 0;
-
+        
         public void button_Result_Click(object sender, EventArgs e)
         {
-            double inner = Double.Parse(text_In.Text);
-            if (combo_In.SelectedItem == "USD")
+            try
             {
-                dif = 26.8;
+                double inner = Double.Parse(text_In.Text);
+                if (combo_In.SelectedItem == "USD")
+                {
+                    dif = 26.8;
+                }
+                else if (combo_In.SelectedItem == "EUR")
+                {
+                    dif = 33.2;
+                }
+                else if (combo_In.SelectedItem == "HUF")
+                {
+                    dif = 0.104;
+                }
+                double result = inner / dif;
+                text_Result.Text = Convert.ToString(result);
             }
-            else if (combo_In.SelectedItem == "EUR")
+            catch(Exception ex)
             {
-                dif = 33.2;
+                MessageBox.Show(ex.Message);
             }
-            else if (combo_In.SelectedItem == "HUF")
-            {
-                dif = 0.104;
-            }
-            double result = inner / dif;
-            text_Result.Text = Convert.ToString(result);
         }
 
         private void button_Clear_Click(object sender, EventArgs e)
@@ -45,11 +52,18 @@ namespace Exchange_
 
         public void button_Add_Click(object sender, EventArgs e)
         {
-            Form2 ff = new Form2();
-            ff.ShowDialog();
-            string newcurrency = ff.text_CurrencyAdd.Text;
-            dif = 1 / Double.Parse(ff.text_dif.Text);
-            combo_In.Items.Add(newcurrency);
+            try
+            {
+                Form2 ff = new Form2();
+                ff.ShowDialog();
+                string newcurrency = ff.text_CurrencyAdd.Text;
+                dif = 1 / Double.Parse(ff.text_dif.Text);
+                combo_In.Items.Add(newcurrency);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
